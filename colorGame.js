@@ -6,38 +6,18 @@ var colorDisplay = document.getElementById('colorDisplay');
 var messageDisplay = document.querySelector('#message');
 var h1 = document.querySelector('h1');
 var resetButton = document.getElementById('reset');
-var easyBtn = document.querySelector('#easyBtn');
-var hardBtn = document.querySelector('#hardBtn');
-
+var modeButtons = document.querySelectorAll('.mode');
 colorDisplay.textContent = pickedColor;
 
-easyBtn.addEventListener('click', function() {
-  hardBtn.classList.remove('selected');
-  easyBtn.classList.add('selected');
-  numberOfSquares = 3;
-  colors = generateRandomColors(numberOfSquares);
-  pickedColor = pickColor();
-  colorDisplay.textContent = pickedColor;
-  for (var i = 0; i < squares.length; i++) {
-    if (colors[i]) {
-      squares[i].style.backgroundColor = colors[i];
-    } else {
-      squares[i].style.display = 'none';
-    }
-  }
-});
-hardBtn.addEventListener('click', function() {
-  easyBtn.classList.remove('selected');
-  hardBtn.classList.add('selected');
-  numberOfSquares = 3;
-  colors = generateRandomColors(numberOfSquares);
-  pickedColor = pickColor();
-  colorDisplay.textContent = pickedColor;
-  for (var i = 0; i < squares.length; i++) {
-    squares[i].style.backgroundColor = colors[i];
-    squares[i].style.display = 'block';
-  }
-});
+for (var i = 0; i < modeButtons.length; i++) {
+  modeButtons[i].addEventListener('click', function() {
+    modeButtons[0].classList.remove('selected');
+    modeButtons[1].classList.remove('selected');
+    this.classList.add('selected');
+    this.textContent === 'Easy' ? (numberOfSquares = 3) : (numberOfSquares = 6);
+    reset();
+  });
+}
 
 //Selecting the elements of the array and add an event Listener to it
 for (var i = 0; i < squares.length; i++) {
@@ -62,6 +42,10 @@ for (var i = 0; i < squares.length; i++) {
 
 //Adding An Event On Reset Button
 resetButton.addEventListener('click', function() {
+  reset();
+});
+
+function reset() {
   //generate all new colors
   colors = generateRandomColors(numberOfSquares);
   //pick a new random color  from array
@@ -69,10 +53,17 @@ resetButton.addEventListener('click', function() {
   //change colors of squares
   colorDisplay.textContent = pickedColor;
   for (var i = 0; i < squares.length; i++) {
-    squares[i].style.backgroundColor = colors[i];
+    if (colors[i]) {
+      squares[i].style.display = 'block';
+      squares[i].style.backgroundColor = colors[i];
+    } else {
+      squares[i].style.display = 'none';
+    }
   }
   h1.style.backgroundColor = 'steelblue';
-});
+  messageDisplay.textContent = '';
+  resetButton.textContent = 'New Colors';
+}
 
 function changeColors(color) {
   //loop through squares
