@@ -26,3 +26,6 @@ span {
   text-align: center;
   color: black;
 }
+.selected {
+  background-color: blue;
+}
